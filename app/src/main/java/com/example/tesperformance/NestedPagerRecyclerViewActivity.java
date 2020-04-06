@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 
 public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
 
@@ -58,6 +60,12 @@ public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //sleep();
     }
 
     interface PageListener {
@@ -173,19 +181,24 @@ public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
 
         ViewPager viewPager;
         PageListener pageListener;
+        TabLayout tabLayout;
 
         public ViewPagerViewHolder(@NonNull View itemView, PageListener pageListener) {
             super(itemView);
             this.pageListener = pageListener;
             viewPager = itemView.findViewById(R.id.viewPager);
+            tabLayout = itemView.findViewById(R.id.tabLayout);
         }
 
         public void bind() {
             viewPager.setAdapter(new PagerAdapter(pageListener.getFragmentManager()));
+            tabLayout.setupWithViewPager(viewPager);
         }
     }
 
     public static class PagerAdapter extends FragmentStatePagerAdapter {
+
+        public static final int TAB_COUNT = 10;
 
         public PagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
@@ -199,7 +212,12 @@ public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 10;
+            return TAB_COUNT;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "TAB " + position;
         }
     }
 
@@ -217,6 +235,7 @@ public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
             super.onViewCreated(view, savedInstanceState);
             recyclerView = view.findViewById(R.id.recyclerView);
             recyclerView.setAdapter(new ImageAdapter());
+            recyclerView.setLayoutManager(new GridLayoutManager(view.getContext(), 2));
         }
     }
 }
