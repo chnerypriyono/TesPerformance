@@ -23,7 +23,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 
-public class NestedPagerRecyclerViewActivity extends AppCompatActivity {
+public class estedPagerRecyclerViewActivity extends AppCompatActivity {
 
     public static long startTime;
 
